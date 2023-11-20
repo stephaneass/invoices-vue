@@ -74,7 +74,7 @@
                 <div class="table__footer">
                     <div class="document-footer" >
                         <p>Terms and Conditions</p>
-                        <textarea cols="50" rows="7" class="textarea" v-model="form.term_and_conditions"></textarea>
+                        <textarea cols="50" rows="7" class="textarea" v-model="form.terms_and_conditions"></textarea>
                     </div>
                     <div>
                         <div class="table__footer--subtotal">
@@ -99,7 +99,7 @@
                     
                 </div>
                 <div>
-                    <a class="btn btn-secondary">
+                    <a class="btn btn-secondary" @click="saveCard()">
                         Save
                     </a>
                 </div>
@@ -141,6 +141,9 @@
 
 <script setup>
     import {onMounted, ref} from 'vue'
+    import { useRouter } from 'vue-router'
+
+    const router = useRouter()
 
     let form = ref([])
     let allcustomers = ref([])
@@ -213,5 +216,32 @@
 
     const total = () => {
         return subTotal( ) - form.value.discount
+    }
+
+    const saveCard = () => {
+
+        if (listCard.value.length >= 1) {
+            let sub_total = 0
+            sub_total = subTotal()
+    
+            let _total = 0
+            _total = total()
+    
+            const formData = new FormData()
+            formData.append('invoice_items', JSON.stringify(listCard.value))
+            formData.append('customer_id', customer_id.value)   
+            formData.append('date', form.value.date)   
+            formData.append('due_date', form.value.due_date)   
+            formData.append('number', form.value.number)   
+            formData.append('reference', form.value.reference)   
+            formData.append('discount', form.value.discount)   
+            formData.append('sub_total', sub_total)   
+            formData.append('total', _total)   
+            formData.append('terms_and_conditions', form.value.terms_and_conditions)   
+
+            axios.post('/api/products/store', formData)
+            listCard.value = []
+            router.push('/')
+        }
     }
 </script>
