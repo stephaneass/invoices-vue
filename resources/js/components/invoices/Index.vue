@@ -57,7 +57,9 @@
 
                 <!-- item 1 -->
                 <div class="table--items" v-for="invoice in invoices" :key="invoice.id">
-                    <a href="#" class="table--items--transactionId">#{{invoice.id}}</a>
+                    <a href="#" @click="onShow(invoice.id)" class="table--items--transactionId">
+                        #{{invoice.id}}
+                    </a>
                     <p>{{ invoice.date }}</p>
                     <p>#{{ invoice.number }}</p>
                     <p v-if="invoice.customer">{{ invoice.customer.last_name }}</p>
@@ -97,5 +99,9 @@
         //let response = await axios.get('/api/create_invoice')
         //console.log('form : ', response)
         router.push('/invoice/new')
+    }
+
+    const onShow = (id) => {
+        router.push('/invoice/show/'+id);
     }
 </script>

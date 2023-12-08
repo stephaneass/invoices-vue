@@ -60,4 +60,13 @@ class InvoiceController extends Controller
 
         return response()->json($formData);
     }
+
+    public function show($id)
+    {dd($id);
+        $invoice = Invoice::with('customer')->find($id);
+
+        return response()->json([
+            'invoice' => $invoice
+        ], 200);
+    }
 }
