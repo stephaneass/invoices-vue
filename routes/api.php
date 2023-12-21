@@ -28,4 +28,4 @@ Route::get("create_invoice", [InvoiceController::class, 'create']);
 Route::get("customers", [CustomerController::class, 'index']);
 Route::get("products", [ProductController::class, 'index']);
 Route::post("products/store", [ProductController::class, 'store']);
-Route::post("invoice/{id}", [InvoiceController::class, 'show']);
+Route::get("invoice/{id}", [InvoiceController::class, 'show']);
